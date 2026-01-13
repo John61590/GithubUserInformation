@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Android Robot Icon -->
+    <!-- Head -->
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M54,18
+            L36,28
+            L36,48
+            L54,58
+            L72,48
+            L72,28
+            Z" />
+    <!-- Body -->
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M36,58
+            L36,78
+            L54,88
+            L72,78
+            L72,58
+            Z" />
+    <!-- Arms -->
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M24,38
+            L36,48
+            L36,68
+            L24,58
+            Z" />
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M84,38
+            L72,48
+            L72,68
+            L84,58
+            Z" />
+    <!-- Legs -->
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M36,88
+            L36,98
+            L48,108
+            L48,98
+            Z" />
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M72,88
+            L72,98
+            L60,108
+            L60,98
+            Z" />
+    <!-- Eyes -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M45,34
+            A2,2 0 1,1 45,38
+            A2,2 0 1,1 45,34Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M63,34
+            A2,2 0 1,1 63,38
+            A2,2 0 1,1 63,34Z" />
+
+</vector>
+
