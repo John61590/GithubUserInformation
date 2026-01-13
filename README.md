@@ -167,9 +167,15 @@ This project was created for interview assessment purposes.
 
 ## Screenshots
 
-<!-- 
-Screenshots TODO:
 1. User list with pull-to-refresh
+-Light Theme
+<img width="1344" height="2992" alt="GitHubUserInformation - List (Light Theme)" src="https://github.com/user-attachments/assets/5a2f9de7-71ba-4a97-8fd4-d28bb069ca43" />
+-Dark Theme
+<img width="1344" height="2992" alt="GitHubUserInformation - List (Dark Theme)" src="https://github.com/user-attachments/assets/aca895e7-6e05-491b-87b0-9037b55be75f" />
 2. User detail view
-3. Empty/error states*
--->
+<img width="1344" height="2992" alt="GitHub User Information - List Detail" src="https://github.com/user-attachments/assets/74107e01-0d2f-4b17-84f5-437c3cdc4e94" />
+3. Empty State - No Internet (List Screen)
+<img width="1344" height="2992" alt="GitHubUserInformation - List Error State" src="https://github.com/user-attachments/assets/e4556e1d-55e0-4025-bc77-a0b70f21b1af" />
+
+
+
