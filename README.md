@@ -96,22 +96,6 @@ As per the assignment requirements, AI tools were used in the development of thi
 
 **Use Case**: Unit Test Development and Code Refactoring
 
-**Issues Resolved**:
-1. Fixed 4 failing unit tests due to mock setup configuration
-   - Problem: Mock tests using `any()` matcher caused failures
-   - Solution: Used exact parameters instead of `any()`
-   - Reason: Streamlined test debugging while maintaining understanding of test behavior
-
-2. Refactored ViewModels from LiveData to StateFlow
-   - Problem: Legacy LiveData API being used
-   - Solution: Migrated to modern StateFlow with proper lifecycle-aware collection
-   - Reason: StateFlow is the modern standard for Kotlin coroutines, provides better integration with Flow operators, thread safety by default, and eliminates Android dependencies from ViewModel layer
-
-3. Fixed build compatibility issues with Kotlin dependency versions
-   - Problem: Kotlin metadata version mismatch between dependencies
-   - Solution: Aligned all dependencies to use Kotlin 2.0.21 compatible versions
-   - Reason: Ensuring build stability and proper dependency management for production-level code
-
 **Reason for Using AI Tools**:
 AI tools were used to accelerate development while maintaining code quality. 
 They helped identify and fix issues quickly, allowing focus on architectural decisions and user experience rather then debugging configuration problems. 
