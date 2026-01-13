@@ -41,7 +41,7 @@ This app follows a clean architecture pattern:
 ### Building
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/John61590/GithubUserInformation
 cd GithubUserInformation
 
 # Build the project
