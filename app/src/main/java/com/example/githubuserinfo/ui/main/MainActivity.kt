@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.githubuserinfo.R
 import com.example.githubuserinfo.data.model.GithubUserSummary
 import com.example.githubuserinfo.databinding.ActivityMainBinding
@@ -48,8 +48,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        binding.usersRecyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        binding.usersRecyclerView.layoutManager = layoutManager
         binding.usersRecyclerView.adapter = adapter
+
+        binding.usersRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy <= 0) return // Only trigger on scroll down
+
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                // Load more when user is 5 items away from the end
+                if ((visibleItemCount + firstVisibleItemPosition + 5) >= totalItemCount) {
+                    viewModel.loadMoreUsers()
+                }
+            }
+        })
     }
 
     private fun observeState() {

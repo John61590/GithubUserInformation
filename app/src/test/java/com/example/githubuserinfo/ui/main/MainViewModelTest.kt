@@ -16,7 +16,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.Assert.assertFalse
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
@@ -149,5 +151,177 @@ class MainViewModelTest {
         // Then - final state should be Success
         assertTrue(successState is UserListState.Success)
         assertEquals(users, (successState as UserListState.Success).users)
+    }
+
+    // Pagination tests
+
+    @Test
+    fun `loadMoreUsers should append new users to existing list`() = runTest {
+        // Given
+        val initialUsers = listOf(
+            GithubUserSummary("user1", 1L, "avatar1", "User"),
+            GithubUserSummary("user2", 2L, "avatar2", "User")
+        )
+        val nextPageUsers = listOf(
+            GithubUserSummary("user3", 3L, "avatar3", "User"),
+            GithubUserSummary("user4", 4L, "avatar4", "User")
+        )
+        whenever(repository.getUsers(null, 50)).thenReturn(initialUsers)
+        whenever(repository.getUsers(2L, 50)).thenReturn(nextPageUsers)
+
+        viewModel = MainViewModel(repository)
+        advanceUntilIdle()
+
+        // When
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // Then
+        val state = viewModel.state.value
+        assertTrue(state is UserListState.Success)
+        val allUsers = (state as UserListState.Success).users
+        assertEquals(4, allUsers.size)
+        assertEquals("user1", allUsers[0].login)
+        assertEquals("user4", allUsers[3].login)
+        verify(repository).getUsers(2L, 50)
+    }
+
+    @Test
+    fun `loadMoreUsers should set isLoadingMore to true while loading`() = runTest {
+        // Given
+        val initialUsers = listOf(GithubUserSummary("user1", 1L, "avatar1", "User"))
+        val nextPageUsers = listOf(GithubUserSummary("user2", 2L, "avatar2", "User"))
+        whenever(repository.getUsers(null, 50)).thenReturn(initialUsers)
+        whenever(repository.getUsers(1L, 50)).thenReturn(nextPageUsers)
+
+        viewModel = MainViewModel(repository)
+        advanceUntilIdle()
+
+        // When
+        viewModel.loadMoreUsers()
+
+        // Then - isLoadingMore should be true before completion
+        val loadingState = viewModel.state.value
+        assertTrue(loadingState is UserListState.Success)
+        assertTrue((loadingState as UserListState.Success).isLoadingMore)
+
+        advanceUntilIdle()
+
+        // After completion, isLoadingMore should be false
+        val finalState = viewModel.state.value
+        assertTrue(finalState is UserListState.Success)
+        assertFalse((finalState as UserListState.Success).isLoadingMore)
+    }
+
+    @Test
+    fun `loadMoreUsers should do nothing when state is Loading`() = runTest {
+        // Given
+        val initialUsers = listOf(GithubUserSummary("user1", 1L, "avatar1", "User"))
+        whenever(repository.getUsers(null, 50)).thenReturn(initialUsers)
+
+        viewModel = MainViewModel(repository)
+        // Don't advance - state is still Loading
+
+        // When
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // Then - should only call getUsers once (initial load)
+        verify(repository).getUsers(null, 50)
+        verify(repository, never()).getUsers(1L, 50)
+    }
+
+    @Test
+    fun `loadMoreUsers should do nothing when no more pages available`() = runTest {
+        // Given
+        val initialUsers = listOf(GithubUserSummary("user1", 1L, "avatar1", "User"))
+        whenever(repository.getUsers(null, 50)).thenReturn(initialUsers)
+        whenever(repository.getUsers(1L, 50)).thenReturn(emptyList())
+
+        viewModel = MainViewModel(repository)
+        advanceUntilIdle()
+
+        // First loadMore returns empty - no more pages
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // When - try to load more again
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // Then - should only call getUsers(1L) once since hasMorePages is now false
+        verify(repository).getUsers(null, 50)
+        verify(repository).getUsers(1L, 50)
+    }
+
+    @Test
+    fun `loadMoreUsers should preserve existing data on error`() = runTest {
+        // Given
+        val initialUsers = listOf(
+            GithubUserSummary("user1", 1L, "avatar1", "User"),
+            GithubUserSummary("user2", 2L, "avatar2", "User")
+        )
+        whenever(repository.getUsers(null, 50)).thenReturn(initialUsers)
+        whenever(repository.getUsers(2L, 50)).thenThrow(RuntimeException("Network error"))
+
+        viewModel = MainViewModel(repository)
+        advanceUntilIdle()
+
+        // When
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // Then - should still have original users, not Error state
+        val state = viewModel.state.value
+        assertTrue(state is UserListState.Success)
+        assertEquals(initialUsers, (state as UserListState.Success).users)
+        assertFalse(state.isLoadingMore)
+    }
+
+    @Test
+    fun `loadMoreUsers should do nothing when list is empty`() = runTest {
+        // Given
+        whenever(repository.getUsers(null, 50)).thenReturn(emptyList())
+
+        viewModel = MainViewModel(repository)
+        advanceUntilIdle()
+
+        // When
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // Then - should not attempt to load more (no lastUserId available)
+        verify(repository).getUsers(null, 50)
+        verify(repository, never()).getUsers(0L, 50)
+    }
+
+    @Test
+    fun `loadInitialUsers should reset pagination state`() = runTest {
+        // Given
+        val initialUsers = listOf(GithubUserSummary("user1", 1L, "avatar1", "User"))
+        val nextPageUsers = listOf(GithubUserSummary("user2", 2L, "avatar2", "User"))
+        val refreshedUsers = listOf(GithubUserSummary("user3", 3L, "avatar3", "User"))
+
+        whenever(repository.getUsers(null, 50))
+            .thenReturn(initialUsers)
+            .thenReturn(refreshedUsers)
+        whenever(repository.getUsers(1L, 50)).thenReturn(nextPageUsers)
+
+        viewModel = MainViewModel(repository)
+        advanceUntilIdle()
+
+        // Load more to get 2 users
+        viewModel.loadMoreUsers()
+        advanceUntilIdle()
+
+        // When - refresh
+        viewModel.loadInitialUsers()
+        advanceUntilIdle()
+
+        // Then - should have only refreshed users, not combined list
+        val state = viewModel.state.value
+        assertTrue(state is UserListState.Success)
+        assertEquals(1, (state as UserListState.Success).users.size)
+        assertEquals("user3", state.users[0].login)
     }
 }

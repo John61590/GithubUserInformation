@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.githubuserinfo.R
 import com.example.githubuserinfo.databinding.ActivityUserDetailBinding
+import com.example.githubuserinfo.util.DateUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -76,7 +77,7 @@ class UserDetailActivity : AppCompatActivity() {
                             getString(R.string.public_repos_format, user.publicRepos)
                         user.updatedAt?.let {
                             binding.detailLastUpdatedTextView.text =
-                                getString(R.string.last_updated, it)
+                                getString(R.string.last_updated, DateUtils.formatIsoDate(this@UserDetailActivity, it))
                         }
                     }
 
