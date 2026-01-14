@@ -90,7 +90,7 @@ All tests use:
 
 ## AI Tools Used
 
-As per the assignment requirements, AI tools were used in the development of this project:
+Disclosing per the assignment requirements, AI tools were used in the development of this project:
 
 ### ChatGPT / Claude AI (via Firebender)
 
@@ -106,7 +106,6 @@ If the opportunity arises to enhance this application further, here are potentia
 
 ### Core Features
 - **Search Functionality**: Add ability to search users by login using GitHub Search API (`GET /search/users`)
-- **Pagination**: Implement infinite scroll pagination using GitHub's `since` parameter for better performance
 - **Offline Support**: Add Room database caching to allow offline viewing of previously loaded users in case of no Internet
 
 ### UX Enhancements
@@ -136,9 +135,11 @@ app/
 │   │   │   ├── UserDetailActivity.kt
 │   │   │   └── UserDetailViewModel.kt
 │   │   └── main/
-│   │       ├── MainActivity.kt
-│   │       ├── MainViewModel.kt
-│   │       └── UserListAdapter.kt
+│   │   │   ├── MainActivity.kt
+│   │   │   ├── MainViewModel.kt
+│   │   │   └── UserListAdapter.kt
+│   │   └── util/
+│   │       ├── DateUtil.kt
 │   └── GithubApplication.kt
 └── src/test/                            # Unit tests
 ```
@@ -157,7 +158,7 @@ This project was created for interview assessment purposes.
 -Dark Theme
 <img width="1344" height="2992" alt="GitHubUserInformation - List (Dark Theme)" src="https://github.com/user-attachments/assets/aca895e7-6e05-491b-87b0-9037b55be75f" />
 2. User detail view
-<img width="1344" height="2992" alt="GitHub User Information - List Detail" src="https://github.com/user-attachments/assets/74107e01-0d2f-4b17-84f5-437c3cdc4e94" />
+<img width="1344" height="2992" alt="Screenshot_20260113_182913" src="https://github.com/user-attachments/assets/a58274e2-8c93-4840-9b44-47628ab0c5b1" />
 3. Empty State - No Internet (List Screen)
 <img width="1344" height="2992" alt="GitHubUserInformation - List Error State" src="https://github.com/user-attachments/assets/e4556e1d-55e0-4025-bc77-a0b70f21b1af" />
 
