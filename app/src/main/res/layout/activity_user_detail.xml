@@ -29,6 +29,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/detailContentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -121,16 +122,6 @@
             android:textAppearance="?attr/textAppearanceBodySmall"
             tools:text="Last updated: 2024-01-01" />
 
-        <TextView
-            android:id="@+id/detailErrorTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:text="@string/error_generic"
-            android:visibility="gone"
-            tools:visibility="gone" />
-
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -144,6 +135,17 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/detailErrorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/error_message_detail"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

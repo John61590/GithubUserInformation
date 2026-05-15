@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GitHub User Information</string>
-    <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="error_message_detail">Error loading user details. Swipe to refresh.</string>
     <string name="empty_state">No users found.</string>
     <string name="error_message">Error loading users. Swipe to refresh.</string>
     <string name="followers_format">%1$d followers</string>

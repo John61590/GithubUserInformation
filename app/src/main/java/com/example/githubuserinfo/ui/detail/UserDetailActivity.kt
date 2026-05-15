@@ -65,16 +65,17 @@ class UserDetailActivity : AppCompatActivity() {
             viewModel.state.collect { state ->
                 when (state) {
                     is UserDetailState.Loading -> {
+                        binding.detailErrorTextView.visibility = View.GONE
                         // don't show progress bar if doing swipe to refresh
                         if (!binding.detailSwipeRefreshLayout.isRefreshing) {
+                            binding.detailContentLayout.visibility = View.GONE
                             binding.detailProgressBar.visibility = View.VISIBLE
-                            binding.detailSwipeRefreshLayout.visibility = View.GONE
                         }
                     }
 
                     is UserDetailState.Success -> {
                         binding.detailProgressBar.visibility = View.GONE
-                        binding.detailSwipeRefreshLayout.visibility = View.VISIBLE
+                        binding.detailContentLayout.visibility = View.VISIBLE
                         binding.detailSwipeRefreshLayout.isRefreshing = false
                         binding.detailErrorTextView.visibility = View.GONE
 
@@ -104,7 +105,7 @@ class UserDetailActivity : AppCompatActivity() {
 
                     is UserDetailState.Error -> {
                         binding.detailProgressBar.visibility = View.GONE
-                        binding.detailSwipeRefreshLayout.visibility = View.VISIBLE
+                        binding.detailContentLayout.visibility = View.GONE
                         binding.detailSwipeRefreshLayout.isRefreshing = false
                         binding.detailErrorTextView.visibility = View.VISIBLE
                     }
