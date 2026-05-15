@@ -16,6 +16,7 @@ class GithubRepository @Inject constructor(
     }
 
     suspend fun getUserDetail(login: String): GithubUserDetail {
+        require(login.isNotBlank()) { "Login cannot be empty" }
         return apiService.getUserDetail(login)
     }
 }

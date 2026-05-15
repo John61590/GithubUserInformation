@@ -67,8 +67,8 @@ class DateUtilsTest {
         // When
         val result = DateUtils.formatIsoDate(context, malformedDate)
 
-        // Then - SimpleDateFormat is lenient by default, but this tests the fallback
-        assertNotEquals("", result)
+        // Then - strict parsing rejects invalid values, so original string is returned
+        assertEquals(malformedDate, result)
     }
 
     @Test

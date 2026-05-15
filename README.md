@@ -7,7 +7,7 @@ Also, an interview app for BitFlyer Japan 2025 written by John Bohne.
 
 - **User List View**: Browse GitHub users with profile information
 - **User Detail View**: View detailed profile information including followers, following, and public repositories
-- **Swipe-to-Refresh**: Swipe down to refresh the user list
+- **Swipe-to-Refresh**: Swipe down to refresh the user list or detail screen
 - **Image Loading**: Efficient avatar loading with Coil
 - **Material Design UI**: Clean, modern interface following Material Design guidelines
 
@@ -53,10 +53,6 @@ cd GithubUserInformation
 
 ### Running Tests
 ```bash
-# Run all unit tests
-./gradlew testDebugUnitTest
-
-# Run with coverage (if configured)
 ./gradlew testDebugUnitTest
 ```
 
@@ -70,7 +66,7 @@ Documentation: [GitHub REST API - Users](https://docs.github.com/en/rest/users/u
 
 ## Testing
 
-The project includes comprehensive unit tests with **33 tests** covering:
+The project includes comprehensive unit tests with **50 tests** covering:
 
 - Repository layer (data operations)
 - ViewModel layer (state management and business logic)
@@ -78,10 +74,10 @@ The project includes comprehensive unit tests with **33 tests** covering:
 
 ### Test Coverage
 - Repository: 6 tests
-- MainViewModel: 6 tests
-- UserDetailViewModel: 5 tests
-- Data Models: 10 tests
-- Others: 6 tests
+- MainViewModel: 13 tests
+- UserDetailViewModel: 8 tests
+- Data Models: 12 tests
+- DateUtils: 11 tests
 
 All tests use:
 - Mocking: Mockito-Kotlin
@@ -106,11 +102,9 @@ If the opportunity arises to enhance this application further, here are potentia
 
 ### Core Features
 - **Search Functionality**: Add ability to search users by login using GitHub Search API (`GET /search/users`)
-- **Pagination**: Implement infinite scroll pagination using GitHub's `since` parameter for better performance
 - **Offline Support**: Add Room database caching to allow offline viewing of previously loaded users in case of no Internet
 
 ### UX Enhancements
-- **Pull-to-Refresh Detail**: Add refresh capability to detail screen
 - **Accessibility**: Improve screen reader support with proper content descriptions
 - **Translations**: Add Japanese translations to some strings
 
@@ -160,6 +154,3 @@ This project was created for interview assessment purposes.
 <img width="1344" height="2992" alt="GitHub User Information - List Detail" src="https://github.com/user-attachments/assets/74107e01-0d2f-4b17-84f5-437c3cdc4e94" />
 3. Empty State - No Internet (List Screen)
 <img width="1344" height="2992" alt="GitHubUserInformation - List Error State" src="https://github.com/user-attachments/assets/e4556e1d-55e0-4025-bc77-a0b70f21b1af" />
-
-
-

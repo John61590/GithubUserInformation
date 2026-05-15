@@ -20,6 +20,7 @@ object DateUtils {
         return try {
             // Parse the ISO 8601 format date
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            inputFormat.isLenient = false
             inputFormat.timeZone = java.util.TimeZone.getTimeZone("UTC")
             val date = inputFormat.parse(dateString)
 

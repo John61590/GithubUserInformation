@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.githubuserinfo.R
 import com.example.githubuserinfo.databinding.ActivityUserDetailBinding
 import com.example.githubuserinfo.util.DateUtils
@@ -19,27 +20,37 @@ class UserDetailActivity : AppCompatActivity() {
 
     private val viewModel: UserDetailViewModel by viewModels()
 
+    private var login: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val login = intent.getStringExtra(EXTRA_LOGIN)
+        login = intent.getStringExtra(EXTRA_LOGIN)
         val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL)
 
         setupToolbar()
+        setupSwipeRefresh()
         observeState()
 
         avatarUrl?.let {
             binding.detailAvatarImageView.load(it) {
                 crossfade(true)
+                transformations(CircleCropTransformation())
             }
         }
 
         if (!login.isNullOrBlank()) {
-            viewModel.loadUser(login)
+            viewModel.loadUser(login!!)
         } else {
             binding.detailErrorTextView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.detailSwipeRefreshLayout.setOnRefreshListener {
+            login?.let { viewModel.loadUser(it) }
         }
     }
 
@@ -54,12 +65,17 @@ class UserDetailActivity : AppCompatActivity() {
             viewModel.state.collect { state ->
                 when (state) {
                     is UserDetailState.Loading -> {
-                        binding.detailProgressBar.visibility = View.VISIBLE
-                        binding.detailErrorTextView.visibility = View.GONE
+                        // don't show progress bar if doing swipe to refresh
+                        if (!binding.detailSwipeRefreshLayout.isRefreshing) {
+                            binding.detailProgressBar.visibility = View.VISIBLE
+                            binding.detailSwipeRefreshLayout.visibility = View.GONE
+                        }
                     }
 
                     is UserDetailState.Success -> {
                         binding.detailProgressBar.visibility = View.GONE
+                        binding.detailSwipeRefreshLayout.visibility = View.VISIBLE
+                        binding.detailSwipeRefreshLayout.isRefreshing = false
                         binding.detailErrorTextView.visibility = View.GONE
 
                         val user = state.detail
@@ -68,7 +84,12 @@ class UserDetailActivity : AppCompatActivity() {
                         binding.detailNameTextView.text = displayName
                         binding.detailToolbar.title = user.login
                         binding.detailLoginTextView.text = user.login
-                        binding.detailBioTextView.text = user.bio ?: ""
+                        if (user.bio.isNullOrBlank()) {
+                            binding.detailBioTextView.visibility = View.GONE
+                        } else {
+                            binding.detailBioTextView.text = user.bio
+                            binding.detailBioTextView.visibility = View.VISIBLE
+                        }
                         binding.detailFollowersTextView.text =
                             getString(R.string.followers_format, user.followers)
                         binding.detailFollowingTextView.text =
@@ -83,6 +104,8 @@ class UserDetailActivity : AppCompatActivity() {
 
                     is UserDetailState.Error -> {
                         binding.detailProgressBar.visibility = View.GONE
+                        binding.detailSwipeRefreshLayout.visibility = View.VISIBLE
+                        binding.detailSwipeRefreshLayout.isRefreshing = false
                         binding.detailErrorTextView.visibility = View.VISIBLE
                     }
                 }

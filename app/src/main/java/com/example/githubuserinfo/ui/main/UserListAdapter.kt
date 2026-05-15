@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.githubuserinfo.data.model.GithubUserSummary
 import com.example.githubuserinfo.databinding.ItemUserBinding
 
@@ -46,6 +47,7 @@ class UserListAdapter(
             binding.typeTextView.text = user.type ?: "User"
             binding.avatarImageView.load(user.avatarUrl) {
                 crossfade(true)
+                transformations(CircleCropTransformation())
             }
 
             binding.root.setOnClickListener {
