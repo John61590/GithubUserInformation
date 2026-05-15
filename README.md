@@ -147,12 +147,20 @@ This project was created for interview assessment purposes.
 
 ## Screenshots
 
+
 1. User list with pull-to-refresh
--Light Theme
-<img width="1344" height="2992" alt="GitHubUserInformation - List (Light Theme)" src="https://github.com/user-attachments/assets/5a2f9de7-71ba-4a97-8fd4-d28bb069ca43" />
--Dark Theme
-<img width="1344" height="2992" alt="GitHubUserInformation - List (Dark Theme)" src="https://github.com/user-attachments/assets/aca895e7-6e05-491b-87b0-9037b55be75f" />
+- Light Theme
+<img width="320" alt="GitHubUserInformation - List (Light) Theme" src="https://github.com/user-attachments/assets/a184a89c-f060-4ade-9c00-994e19e84360" />
+
+- Dark Theme
+<img width="320" alt="GitHubUserInformation - List (Dark Theme)" src="https://github.com/user-attachments/assets/57ddbd24-9f94-4df5-b4f9-4dd332b11ac4" />
+
 2. User detail view
-<img width="1344" height="2992" alt="Screenshot_20260113_182913" src="https://github.com/user-attachments/assets/a58274e2-8c93-4840-9b44-47628ab0c5b1" />
+- Light Theme
+<img width="320" alt="GitHubUserInformation - User Detail (Light Theme)" src="https://github.com/user-attachments/assets/ba4865b9-c32f-4caf-bf21-bad83313210a" />
+
+- Dark Theme
+<img width="320" alt="GitHubUserInformation - User Detail (Dark Theme)" src="https://github.com/user-attachments/assets/efe5f8ee-bd53-49f3-8175-4fc6e801a783" />
+
 3. Empty State - No Internet (List Screen)
-<img width="1344" height="2992" alt="GitHubUserInformation - List Error State" src="https://github.com/user-attachments/assets/e4556e1d-55e0-4025-bc77-a0b70f21b1af" />
+<img width="320" alt="GitHubUserInformation - No Internet (Dark Theme)" src="https://github.com/user-attachments/assets/1f5ee0bf-859d-48dc-a944-f23c2c47c9db" />
